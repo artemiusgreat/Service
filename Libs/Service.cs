@@ -1,4 +1,4 @@
-﻿using Schedule.Runners;
+using Schedule.Runners;
 using System;
 using System.IO;
 using System.Linq;
@@ -9,47 +9,12 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Service.Extensions;
-using Service.Services;
+using ServiceScheduler.Extensions;
+using ServiceScheduler.Services;
 
-namespace Service
+namespace ServiceScheduler
 {
-  /// <summary>
-  /// HTTP service
-  /// </summary>
-  public interface IClientService : IDisposable
-  {
-    /// <summary>
-    /// Send GET request
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="message"></param>
-    /// <param name="options"></param>
-    /// <param name="cts"></param>
-    /// <returns></returns>
-    Task<T> Send<T>(
-      HttpRequestMessage message,
-      JsonSerializerOptions options = null,
-      CancellationTokenSource cts = null);
-
-    /// <summary>
-    /// Stream HTTP content
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="message"></param>
-    /// <param name="options"></param>
-    /// <param name="cts"></param>
-    /// <returns></returns>
-    Task<Stream> Stream(
-      HttpRequestMessage message,
-      JsonSerializerOptions options = null,
-      CancellationTokenSource cts = null);
-  }
-
-  /// <summary>
-  /// Service to track account changes, including equity and quotes
-  /// </summary>
-  public class ClientService : IClientService
+  public class Service
   {
     /// <summary>
     /// Max execution time
@@ -74,7 +39,7 @@ namespace Service
     /// <summary>
     /// Constructor
     /// </summary>
-    public ClientService()
+    public Service()
     {
       Client = new HttpClient();
       Timeout = TimeSpan.FromSeconds(5);

@@ -1,6 +1,6 @@
 using System;
 
-namespace Service.Extensions
+namespace ServiceScheduler.Extensions
 {
   public static class DoubleExtensions
   {

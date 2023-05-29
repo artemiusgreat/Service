@@ -2,7 +2,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Service.Converters
+namespace ServiceScheduler.Converters
 {
   public class DoubleConverter : JsonConverter<double>
   {

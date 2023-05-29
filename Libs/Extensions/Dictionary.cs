@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Web;
 
-namespace Service.Extensions
+namespace ServiceScheduler.Extensions
 {
   public static class DictionaryExtensions
   {

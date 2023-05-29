@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Web;
 
-namespace Service.Extensions
+namespace ServiceScheduler.Extensions
 {
   public static class StringExtensions
   {
