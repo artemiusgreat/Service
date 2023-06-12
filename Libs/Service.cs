@@ -1,4 +1,5 @@
 using Schedule.Runners;
+using ServiceScheduler.Services;
 using System;
 using System.IO;
 using System.Linq;
@@ -9,8 +10,6 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using ServiceScheduler.Extensions;
-using ServiceScheduler.Services;
 
 namespace ServiceScheduler
 {
@@ -42,7 +41,7 @@ namespace ServiceScheduler
     public Service()
     {
       Client = new HttpClient();
-      Timeout = TimeSpan.FromSeconds(5);
+      Timeout = TimeSpan.FromSeconds(15);
       Scheduler = new BackgroundRunner(Environment.ProcessorCount);
       Options = new JsonSerializerOptions
       {
@@ -115,7 +114,7 @@ namespace ServiceScheduler
         var response = await Scheduler.Send(Client.SendAsync(message, cts.Token)).Task;
         var content = await Scheduler.Send(response.Content.ReadAsStreamAsync(cts.Token)).Task;
 
-        return await content.DeserializeAsync<T>(Options);
+        return await JsonSerializer.DeserializeAsync<T>(content, Options);
       }
       catch (Exception e)
       {
