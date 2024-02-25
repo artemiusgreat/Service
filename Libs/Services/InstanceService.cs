@@ -1,4 +1,4 @@
-namespace ServiceScheduler.Services
+namespace AsyncService.Services
 {
   /// <summary>
   /// Service to track account changes, including equity and quotes

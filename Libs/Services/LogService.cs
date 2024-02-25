@@ -1,6 +1,6 @@
 using Serilog;
 
-namespace ServiceScheduler.Services
+namespace AsyncService.Services
 {
   public class LogService
   {

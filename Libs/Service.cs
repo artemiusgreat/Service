@@ -1,5 +1,4 @@
-using Schedule.Runners;
-using ServiceScheduler.Services;
+using AsyncService.Models;
 using System;
 using System.IO;
 using System.Linq;
@@ -10,8 +9,9 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Terminal.Core.Services;
 
-namespace ServiceScheduler
+namespace AsyncService
 {
   public class Service
   {
@@ -28,7 +28,7 @@ namespace ServiceScheduler
     /// <summary>
     /// Scheduler
     /// </summary>
-    public virtual BackgroundRunner Scheduler { get; set; }
+    public virtual ScheduleService Scheduler { get; set; }
 
     /// <summary>
     /// Serialization options
@@ -42,7 +42,7 @@ namespace ServiceScheduler
     {
       Client = new HttpClient();
       Timeout = TimeSpan.FromSeconds(15);
-      Scheduler = new BackgroundRunner(Environment.ProcessorCount);
+      Scheduler = new ScheduleService();
       Options = new JsonSerializerOptions
       {
         PropertyNameCaseInsensitive = true,
@@ -102,26 +102,43 @@ namespace ServiceScheduler
     /// <param name="options"></param>
     /// <param name="cts"></param>
     /// <returns></returns>
-    public virtual async Task<T> Send<T>(
+    public virtual Task<ResponseModel<T>> Send<T>(
       HttpRequestMessage message,
       JsonSerializerOptions options = null,
       CancellationTokenSource cts = null)
     {
+      var response = new ResponseModel<T>();
+      var completion = new TaskCompletionSource<ResponseModel<T>>();
+
       try
       {
         cts ??= new CancellationTokenSource(Timeout);
 
-        var response = await Scheduler.Send(Client.SendAsync(message, cts.Token)).Task;
-        var content = await Scheduler.Send(response.Content.ReadAsStreamAsync(cts.Token)).Task;
+        Scheduler.Schedule((Action)(async () =>
+        {
+          try
+          {
+            var res = await Client.SendAsync(message, cts.Token);
+            var content = await res.Content.ReadAsStreamAsync(cts.Token);
+            var entity = await JsonSerializer.DeserializeAsync<T>(content, Options);
 
-        return await JsonSerializer.DeserializeAsync<T>(content, Options);
+            completion.TrySetResult(new ResponseModel<T>
+            {
+              Data = entity
+            });
+          }
+          catch (Exception e)
+          {
+            completion.TrySetException(e);
+          }
+        }));
       }
       catch (Exception e)
       {
-        InstanceService<LogService>.Instance.Log.Error(e.Message);
+        response.Error = e.Message;
       }
 
-      return default;
+      return completion.Task;
     }
 
     /// <summary>

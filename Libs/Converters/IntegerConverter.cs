@@ -2,7 +2,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ServiceScheduler.Converters
+namespace AsyncService.Converters
 {
   public class IntegerConverter : JsonConverter<int>
   {

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceScheduler", "Libs\ServiceScheduler.csproj", "{724221F6-91E9-416E-BDA7-6E7DA3B760D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncService", "Libs\AsyncService.csproj", "{724221F6-91E9-416E-BDA7-6E7DA3B760D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{9792F636-6398-49C2-AB2C-8C248B312CCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{724221F6-91E9-416E-BDA7-6E7DA3B760D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{724221F6-91E9-416E-BDA7-6E7DA3B760D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{724221F6-91E9-416E-BDA7-6E7DA3B760D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9792F636-6398-49C2-AB2C-8C248B312CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9792F636-6398-49C2-AB2C-8C248B312CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9792F636-6398-49C2-AB2C-8C248B312CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9792F636-6398-49C2-AB2C-8C248B312CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
